@@ -1,0 +1,128 @@
+{% extends 'base1.html' %} {% load cart %}{% load custom_filter %}{% block content %}
+<div class="mb-5">hello</div>
+
+<div class="container-fluid mt-3">
+  <div>
+    <h1 class="display-4 pl-4 ml-2">Orders Pending</h1>
+    <table class="table table-striped table-inverse">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Sno.</th>
+          <th class="pl-4">Image</th>
+          <th class="pl-4">Name</th>
+          <th class="pl-4">Price</th>
+          <th class="pl-4">Quantity</th>
+          <th class="pl-4">Total</th>
+          <th class="pl-4">Payment</th>
+          <th class="pl-4">Address</th>
+          <th class="pl-4">Date</th>
+          <th class="pl-4">Status</th>
+          <th class="pl-4">Actions</th>
+          <th class="pl-4">Ratings</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in pendingorders %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td class="pl-4">
+            <img
+              height="65px"
+              width="65px"
+              class="img-responsive"
+              src="{{order.product.image.url}}"
+              alt="Card image cap"
+            />
+          </td>
+          <td class="pl-4">{{order.name}}</td>
+          <td class="pl-4">{{order.price|currency}}</td>
+          <td class="pl-4">{{order.quantity}}</td>
+          <td class="pl-4">{{order.quantity|multiply:order.price}}</td>
+          {% if order.payment %}
+          <td class="pl-4">
+            <small class="badge badge-success">Completed</small>
+          </td>
+          {%else%}
+          <td class="pl-4">
+            <small class="badge badge-warning">Unpaid</small>
+          </td>
+          {%endif%}
+          <td class="pl-4">{{order.address}}</td>
+          <td class="pl-4">{{order.date}}</td>
+          {% if order.status %}
+          <td class="pl-4">
+            <small class="badge badge-success">Completed</small>
+          </td>
+          {%else%}
+          <td class="pl-4">
+            <small class="badge badge-warning">Pending</small>
+          </td>
+          {%endif%}
+          <td class="pl-4">
+            <a
+              href="{% url 'orderstatuschange' order.id %}"
+              role="button"
+              class="btn btn-success btn-sm"
+              >Received</a
+            >
+            <a
+              href="{% url 'conflictonorder' order.id %}"
+              role="button"
+              class="btn btn-danger btn-sm mt-2"
+              >Conflict</a
+            >
+          </td>
+          {%if order.status and order.feedback == False%}
+          <td class="pl-4">
+            <div class="btn-group btn-group-sm" role="group" aria-label="">
+              <a
+                href="{% url 'rating' order.id 1 %}"
+                role="button"
+                class="btn btn-light btn-sm"
+                >⭐</a
+              >
+              <a
+                href="{% url 'rating' order.id 2 %}"
+                role="button"
+                class="btn btn-light btn-sm"
+                >⭐</a
+              >
+              <a
+                href="{% url 'rating' order.id 3 %}"
+                role="button"
+                class="btn btn-light btn-sm"
+                >⭐</a
+              >
+              <a
+                href="{% url 'rating' order.id 4 %}"
+                role="button"
+                class="btn btn-light btn-sm"
+                >⭐</a
+              >
+              <a
+                href="{% url 'rating' order.id 5 %}"
+                role="button"
+                class="btn btn-light btn-sm"
+                >⭐</a
+              >
+            </div>
+          </td>
+          {%elif order.status and order.feedback%}
+          <td class="pl-4">
+            <button type="button" class="btn btn-success btn-sm">
+              Submitted
+            </button>
+          </td>
+          {%else%}
+          <td class="pl-4">
+            <button type="button" class="btn btn-warning btn-sm">N / A</button>
+          </td>
+          {%endif%}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <hr />
+  </div>
+</div>
+{% endblock %}

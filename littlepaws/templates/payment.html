@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="mt-3">hello</div>
+<section class="my-5 mx-auto">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-5 d-none d-sm-flex">
+        <img
+          src="{% static 'images/login-image.jpg' %}"
+          alt=""
+          class="img-fluid"
+        />
+      </div>
+      <div class="col-lg-7 px-5 pt-5">
+        <h1 class="font-weight-bold mt-5 py-1">LittlePaws</h1>
+        <hr />
+        <h4 class="font-weight-bold">Payment through Stripe.</h4>
+        <div class="form-row">
+          <div class="col-lg-7">
+            <p class="form-control mb-3 mt-1"> <b>Note:</b> You must have Mastercard available to proceed for the online payment.</p>
+            
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-lg-7">
+            <p class="form-control mb-3"><b>Shipment Address :</b> {{request.session.updatedaddress}} </p>
+          </div>
+        </div>
+        <form action="{% url 'charge' %}" method="post">
+          {% csrf_token %}
+          <script
+            src="https://checkout.stripe.com/checkout.js"
+            class="stripe-button"
+            data-key="{{ key }}"
+            data-description="Payment Gateway"
+            data-amount="{{ request.session.payable}}"
+            data-locale="auto"
+          ></script>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}  {% load static %} {% block content %}
+<section class="Form my-5 mx-5">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-5 d-none d-sm-flex">
+        <img
+          src="{% static 'images/login-image.jpg' %}"
+          alt=""
+          class="img-fluid"
+        />
+      </div>
+      <div class="col-lg-7 px-5 pt-5">
+        <h1 class="font-weight-bold py-3">LittlePaws</h1>
+        <h4>Sign in to your account.</h4>
+        <form method="post" action="{% url 'signin' %}">
+          {% csrf_token %} {% if error %}
+          <div class="alert alert-danger" role="alert">{{error}}</div>
+          {% endif %}
+          <div class="form-row">
+            <div class="col-lg-7">
+              <input
+                type="email"
+                class="form-control mb-3 mt-1"
+                placeholder="example@gmail.com"
+                name="lemail"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <input
+                type="password"
+                class="form-control mb-3"
+                placeholder="********"
+                required
+                name="lpass"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <button type="submit" class="btn1 mt-2 mb-3">Login</button>
+            </div>
+          </div>
+          <p>Don't have an account? <a href="/signup">Register here</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

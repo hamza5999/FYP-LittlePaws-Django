@@ -1,0 +1,98 @@
+{% extends 'baseseller.html' %} {% load custom_filter %}{% block content %}
+<div class="mb-5">hello</div>
+<div class="container-fluid mt-3">
+  <div>
+    <div class="float-right">
+      <a href="#" role="button" class="btn btn-outline-success"
+        >Current Balance : Rs.{{request.session.sellerbalance}}
+      </a>
+      <a
+        href="sellerpendingorders"
+        role="button"
+        class="btn btn-outline-warning"
+        >Pending</a
+      >
+      <a
+        href="sellercompleteorders"
+        role="button"
+        class="btn btn-outline-success"
+        >Complete</a
+      >
+    </div>
+
+    <h1 class="display-4 pl-4 ml-2">All Orders</h1>
+    <table class="table table-striped table-inverse">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Sno.</th>
+          <th class="pl-4">Image</th>
+          <th class="pl-4">Name</th>
+          <th class="pl-4">Ordered By</th>
+          <th class="pl-4">Quantity</th>
+          <th class="pl-4">Amount</th>
+          <th class="pl-4">Payment</th>
+          <th class="pl-4">Date</th>
+          <th class="pl-4">Address</th>
+          <th class="pl-4">Status</th>
+          <th class="pl-4">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in allorders %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td class="pl-4">
+            <img
+              height="65px"
+              width="65px"
+              class="img-responsive"
+              src="{{order.product.image.url}}"
+              alt="Card image cap"
+            />
+          </td>
+          <td class="pl-4">{{order.name}}</td>
+          <td class="pl-4">{{order.customer}}</td>
+          <td class="pl-4">{{order.quantity}}</td>
+          <td class="pl-4">{{order.price|currency}}</td>
+          {% if order.payment %}
+          <td class="pl-4">
+            <small class="badge badge-success">Completed</small>
+          </td>
+          {%else%}
+          <td class="pl-4">
+            <small class="badge badge-warning">Unpaid</small>
+          </td>
+          {%endif%}
+          <td class="pl-4">{{order.date}}</td>
+          <td class="pl-4">{{order.address}}</td>
+          {% if order.status %}
+          <td class="pl-4">
+            <small class="badge badge-success">Completed</small>
+          </td>
+          {%else%}
+          <td class="pl-4">
+            <small class="badge badge-warning">Pending</small>
+          </td>
+          {%endif%}
+          <td class="pl-4">
+            <a
+              href="{% url 'orderstatuschange' order.id %}"
+              role="button"
+              class="btn btn-success"
+              >✅</a
+            >
+            <a
+              href="{% url 'conflictonorder' order.id %}"
+              role="button"
+              class="btn btn-danger btn-sm mt-2"
+              >Conflict</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <hr />
+  </div>
+</div>
+{% endblock %}

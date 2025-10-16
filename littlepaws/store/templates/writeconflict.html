@@ -1,0 +1,81 @@
+{% extends 'base1.html' %} {% load cart %}{% load custom_filter %}{% block content %}
+<div class="mb-5">hello</div>
+
+<div class="container-fluid mt-5"><div class="mt-5">.</div>
+  <div class="border rounded p-4 m-4">
+    <h1 class="display-4 pl-4 ml-4">Raise a Conflict</h1>
+    <hr />
+    <form action="postconflict" method="POST" class="ml-5 mr-5">
+      {% csrf_token %}
+      <div class="row">
+        <div class="form-group col-lg">
+          <label>Subject</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Subject"
+            name="subject"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            value="{{raisedbyname}}"
+            name="raisedbyname"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            value="{{raisedbytype}}"
+            name="raisedbytype"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            value="{{raisedbyemail}}"
+            name="raisedbyemail"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-lg-12">
+          <label>Description</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            name="conflictdescription"
+          ></textarea>
+          <input
+            type="hidden"
+            class="form-control"
+            value="{{raisedagainstname}}"
+            name="raisedagainstname"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            value="{{raisedagainsttype}}"
+            name="raisedagainsttype"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            value="{{raisedagainstemail}}"
+            name="raisedagainstemail"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-lg-12">
+          <button
+            type="submit"
+            class="btn btn-outline-primary btn-lg btn-block"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

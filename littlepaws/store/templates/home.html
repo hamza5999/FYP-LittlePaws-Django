@@ -1,0 +1,139 @@
+{% extends 'base1.html' %} {% block content %}
+{% load cart %}
+
+<div class="container-fluid mt-3">
+    <br>
+    <br>
+    <h2>Search By Image</h2>
+    <div class="border rounded mt-3">
+        <form method="post" enctype = "multipart/form-data" action="{% url 'homepage' %}">
+            {% csrf_token %}
+            {{ form.media }}
+            <div class="row mt-3 mx-auto">
+                <div class="form-group col-lg-12">
+                <input type="file" class="form-control-file" name="search_image" />
+              </div>
+            </div class="">
+                <div class="form-group col-lg-12">
+                  <button
+                    type="submit" name="search"
+                    class="btn btn-outline-primary btn-lg btn-block mx-auto"
+                  >
+                    Search
+                  </button>
+                </div>
+        </form>
+    </div>
+    <div class="row">
+        <!--filters-->
+        <div class="col-lg-3 mx-auto mt-5">
+            <div class="border rounded">
+            <h3 class="text-center font-weight-bold mt-2">Breeds</h3><hr>
+            <ul class="list-group p-2">
+                {% for filter in catagory %}
+                <a href="/?breed={{filter.id}}" class="list-group-item list-group-item-action">
+                    {{filter.breed}}</a>
+                {%endfor%}
+            </ul>
+            </div>
+            <div class="border rounded mt-3">
+                <h3 class="text-center mt-2">Filter</h3><hr>
+                <form method="post" action="{% url 'homepage' %}">
+                    {% csrf_token %}
+                    <label class="pl-3 font-weight-bold">Color</label>
+                    <div class="ml-3">
+                        <div class="form-group"> <input type="radio" value="black" name="color"> Black </div>
+                        <div class="form-group"> <input type="radio" name="color" value="white"> White </div>
+                        <div class="form-group"> <input type="radio" name="color" value="brown"> Brown </div>
+                        <div class="form-group"> <input type="radio" name="color" value="grey"> Grey </div>
+                    </div><hr>
+                    <label class="pl-3 font-weight-bold">Gender</label>
+                    <div class="ml-3">
+                        <div class="form-group"> <input type="radio" id="male" value="Male" name="gender"> Male </div>
+                        <div class="form-group"> <input type="radio" id="female" value="Female" name="gender"> Female </div>
+
+                    </div><hr>
+                    <label class="pl-3 font-weight-bold">Size</label>
+                    <div class="ml-3">
+                        <div class="form-group"> <input type="radio" id="audlt" value="Small" name="age"> Small </div>
+                        <div class="form-group"> <input type="radio" id="kitten" value="Medium" name="age"> Medium </div>
+                        <div class="form-group"> <input type="radio" id="kitten" value="Large" name="age"> Large </div>
+
+                    </div>
+                    <div class="m-3">
+                        <button type="submit" name="filter" class="btn btn-primary btn-lg btn-block">Filter</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--all products-->
+    <div id='products' class="col-lg-9 mx-auto mt-4">
+        <div class="row pt-3">
+            {% for product in products%}
+            <div class="col-sm-4 pb-3" id="{{product.id}}">
+                <div class="img-thumbnail">
+                    <img height="360px" class="w-100 img-responsive" src="{{product.image.url}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="font-weight-bold pt-1 rounded">{{product.name}}</h5>
+                        <p class="card-text">Gender: {{product.gender}}</p>
+                        <p class="card-text">Size: {{product.size}}</p>
+                        <p class="card-text">Rating: {{product.totalratings}}({{product.ratings|floatformat:1}}⭐)</p>
+                        <p class="font-weight-bold rounded">Price: Rs. {{product.price}}</p>
+                    </div>
+                    <div class="card-footer p-0 no-gutters">
+                        {% if product|is_in_cart:request.session.session_cart %}
+                        <div class="row no-gutters">
+                            <form action="/#{{product.id}}" method="POST" class="col-2">
+                                {% csrf_token %}
+                                <input hidden type="text" name="product" value='{{product.id}}'>
+                                <input hidden type="text" name="remove" value='True'>
+                                <input type="submit" value=" - " class="btn btn-block btn-secondary">
+                            </form>
+                            <div class="text-center col mt-2">{{product|cart_quantity:request.session.session_cart}} in
+                                Cart</div>
+                            <form action="/#{{product.id}}" method="POST" class="col-2">
+                                {% csrf_token %}
+                                <input hidden type="text" name="product" value='{{product.id}}'>
+                                <input type="submit" name="cart" value=" + " class="btn btn-block btn-secondary">
+                            </form>
+                        </div>
+                        {% else %}
+                        <form action="/#{{product.id}}" method="POST" class="btn-block">
+                            {% csrf_token %}
+                            <input hidden type="text" name="product" value='{{product.id}}'>
+                            <input type="submit" class="btn btn-secondary border form-control" value="Add to Cart" />
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if products.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{products.previous_page_number}}" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="?page=1">Main Page</a></li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                {% endif %}
+                {% if products.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{products.next_page_number}}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}

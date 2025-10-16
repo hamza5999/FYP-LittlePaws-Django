@@ -1,0 +1,124 @@
+{% extends 'baseseller.html' %} {% block content %}
+<div class="container-fluid pt-5">
+  <div class="border rounded p-4 m-4">
+    <h1 class="display-4 pl-4 ml-4">Update Catalog</h1>
+    <hr />
+    <form
+      action="{% url 'editcatalog' catalog.id %}"
+      method="POST"
+      class="ml-5 mr-5"
+    >
+      {% csrf_token %}
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label>Cat name</label>
+          <input
+            type="text"
+            name="ucatname"
+            class="form-control"
+            placeholder="Cat name"
+            value="{{ catalog.name }}"
+          />
+        </div>
+        <div class="form-group col-lg-6">
+          <label>Cat color</label>
+          <select class="form-control" name="ucatcolor">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Grey">Gray</option>
+            <option value="Cream">Cream</option>
+            <option value="Brown">Brown</option>
+            <option value="Fawn">Fawn</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label>Cat gender</label>
+          <select class="form-control" name="ucatgender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-6">
+          <label>Cat size</label>
+          <select class="form-control" name="ucatsize">
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label>Cat ears</label>
+          <select class="form-control" name="ucatears">
+            <option value="Pyramid Shaped">Pyramid Shaped</option>
+            <option value="Curled">Curled</option>
+            <option value="Folded">Folded</option>
+            <option value="Floppy">Floppy</option>
+            <option value="Loosely Folded">Loosely Folded</option>
+            <option value="Triangular">Triangular</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-6">
+          <label>Cat image</label>
+          <input
+            type="file"
+            name="ucatimage"
+            class="form-control-file"
+            value="{{catalog.image.url}}"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-lg-6">
+          <label>Cat price</label>
+          <input
+            type="text"
+            name="ucatprice"
+            class="form-control"
+            placeholder="Price"
+            value="{{ catalog.price }}"
+          />
+        </div>
+        <div class="form-group col-lg-6">
+          <label>Cat breed</label>
+          <select class="form-control" name="ucatbreed">
+            <option value="American Bobtail">American Bobtail</option>
+            <option value="Bengal">Bengal</option>
+            <option value="Chartreux">Chartreux</option>
+            <option value="Devon Rex">Devon Rex</option>
+            <option value="Munchkin">Munchkin</option>
+            <option value="Norwegian Forest">Norwegian Forest</option>
+            <option value="Persian">Persian</option>
+            <option value="Ragdoll">Ragdoll</option>
+            <option value="Somali">Somali</option>
+            <option value="Turkish Angora">Turkish Angora</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-lg-12">
+          <label>Description</label>
+          <textarea class="form-control" rows="3" name="ucatdescription">
+{{ catalog.description }}</textarea
+          >
+        </div>
+        <input type="text" class="form-control" hidden value="" />
+      </div>
+      <div class="row">
+        <div class="form-group col-lg-12">
+          <button
+            type="submit"
+            class="btn btn-outline-success btn-lg btn-block"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

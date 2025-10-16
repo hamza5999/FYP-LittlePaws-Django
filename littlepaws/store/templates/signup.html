@@ -1,0 +1,138 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section class="Form my-4 mx-5">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-5 d-none d-sm-flex">
+        <img
+          src="{% static 'images/signup-image.jpg' %}"
+          alt=""
+          class="img-fluid"
+        />
+      </div>
+      <div class="col-lg-7 px-5 pt-5 pb-3">
+        <h1 class="font-weight-bold py-1">LittlePaws</h1>
+        <h4>Register your account.</h4>
+        <form action="{% url 'signup' %}" method="POST">
+          {% csrf_token %} {% if error %}
+          <div class="alert alert-danger" role="alert">{{error}}</div>
+          {% endif %}
+          <div class="form-row">
+            <div class="col-lg-7">
+              <input
+                type="text"
+                class="form-control mb-2 mt-1"
+                placeholder="Full name"
+                required
+                maxlength="50"
+                value="{{values.fullname}}"
+                name="fullname"
+                pattern="^[a-zA-Z\s]+$"
+                title="Name can only contain characters."
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <input
+                type="tel"
+                class="form-control mb-2 mt-1"
+                placeholder="Contact no."
+                required
+                maxlength="11"
+                minlength="11"
+                name="phone"
+                value="{{values.phone}}"
+                pattern="^03[0-9+]{2}[0-9+]{7}$"
+                title="03*********, follow this format. (* means number)"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <input
+                type="text"
+                class="form-control mb-2 mt-1"
+                placeholder="Address"
+                required
+                maxlength="100"
+                name="address"
+                value="{{values.address}}"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <input
+                type="text"
+                class="form-control mb-2 mt-1"
+                placeholder="CNIC"
+                required
+                maxlength="30"
+                name="cnic"
+                value="{{values.cnic}}"
+                pattern="^[0-9+]{5}-[0-9+]{7}-[0-9]{1}$"
+                title="*****-*******-*, follow this format. (* means number)"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="accounttype"
+                  value="Buyer"
+                  checked
+                />
+                <label class="form-check-label">Buyer</label>
+              </div>
+              <div class="form-check form-check-inline mb-1">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="accounttype"
+                  value="Seller"
+                />
+                <label class="form-check-label">Seller</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <input
+                type="email"
+                class="form-control mb-3 mt-1"
+                placeholder="Email"
+                required
+                name="emailaddress"
+                value="{{values.email}}"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <input
+                type="password"
+                class="form-control mb-3"
+                placeholder="Password"
+                required
+                maxlength="20"
+                name="pass"
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Password must be of 8 or more characters, and have atleast one number and one uppercase or lowercase letter."
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-7">
+              <button type="submit" class="btn1 mt-1 mb-3">Register</button>
+            </div>
+          </div>
+          <p>Already have an account? <a href="/signin">Sign in</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

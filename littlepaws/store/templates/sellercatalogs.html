@@ -1,0 +1,66 @@
+{% extends 'baseseller.html' %} {% load custom_filter %}{% block content %}
+<div class="mb-5">h</div>
+<div class="container-fluid mt-3">
+  <div>
+    <h1 class="display-4 pl-1 ml-2">Your Catalogs</h1>
+    <table class="table table-striped table-inverse">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Sno.</th>
+          <th class="pl-4">Image</th>
+          <th class="pl-4">Name</th>
+          <th class="pl-4">Breed</th>
+          <th class="pl-4">Gender</th>
+          <th class="pl-4">Size</th>
+          <th class="pl-4">Color</th>
+          <th class="pl-4">Ears</th>
+          <th class="pl-4">Price</th>
+          <th class="pl-4">Description</th>
+          <th class="pl-4">Rating</th>
+          <th class="pl-4">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for single in allcatalogs %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td class="pl-4">
+            <img
+              height="65px"
+              width="65px"
+              class="img-responsive"
+              src="{{single.image.url}}"
+              alt="Card image cap"
+            />
+          </td>
+          <td class="pl-4">{{single.name}}</td>
+          <td class="pl-4">{{single.breed}}</td>
+          <td class="pl-4">{{single.gender}}</td>
+          <td class="pl-4">{{single.size}}</td>
+          <td class="pl-4">{{single.color}}</td>
+          <td class="pl-4">{{single.ears}}</td>
+          <td class="pl-4">{{single.price|currency}}</td>
+          <td class="pl-4">{{single.description}}</td>
+          <td class="pl-4">{{single.totalratings}}({{single.ratings}}⭐)</td>
+          <td class="pl-4">
+            <a
+              href="{% url 'editcatalog' single.id %}"
+              role="button"
+              class="btn btn-info"
+              ><i class="bi bi-pencil-square"></i>
+            </a>
+            <a
+              href="{% url 'deletecatalog' single.id %}"
+              role="button"
+              class="btn btn-danger"
+              ><i class="bi bi-trash-fill"></i
+            ></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <hr />
+  </div>
+</div>
+{% endblock %}
